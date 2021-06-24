@@ -2,17 +2,21 @@ import React from 'react';
 
 import { useFormik } from 'formik';
 
-import * as Yup from 'yup';
+// import * as Yup from 'yup';
+
+import FocusError from '../components/FocusErorr';
 
 const Home = React.memo(() => {
 
     const [stateVisibleHead, setVisibleHead] = React.useState(false);
     const [stateVisibleAddress, setVisibleAddress] = React.useState(false);
     const [stateSelected, setSelected] = React.useState(true);
-    
+
     const selectCheckboxAddress = () => {
         setSelected(!stateSelected);
     };
+
+    const refFactAddress = React.useRef(null);
 
     const viewHead = () => {
         setVisibleHead(!stateVisibleHead);
@@ -58,7 +62,7 @@ const Home = React.memo(() => {
         if (!values.email) {
             errorsForm.email = 'Поле обязательно к заполнению';
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
-            errorsForm.email = 'Допукаются латинские буквы, цифры и символы';
+            errorsForm.email = 'Допукаются латинские буквы, цифры и символы (.@-_)';
         }
         if (!values.phone) {
             errorsForm.phone = 'Поле обязательно к заполнению';
@@ -117,7 +121,9 @@ const Home = React.memo(() => {
         onSubmit,
     });
 
-    console.log(formikForm.errors);
+    // console.log(formikForm.errors);
+    // console.log(formikForm.isSubmitting);
+    // console.log(formikForm.isValidating);
 
     return (
         <div className="container">
@@ -180,7 +186,7 @@ const Home = React.memo(() => {
                     <div>
                         <input
                             name="site"
-                            type="url"
+                            type="text"
                             onChange={ formikForm.handleChange }
                             value={ formikForm.values.site }
                             onBlur={ formikForm.handleBlur }
@@ -258,7 +264,7 @@ const Home = React.memo(() => {
                         <div className="container__label">
                             <label>
                                 <div>
-                                    <input type="checkbox" onClick={ selectCheckboxAddress } />
+                                    <input ref={ refFactAddress } type="checkbox" onClick={ selectCheckboxAddress } />
                                     <p>Совпадает с фактическим адресом организации</p>
                                 </div>
                             </label>
@@ -373,6 +379,11 @@ const Home = React.memo(() => {
                 </div>
                 <button type="submit">Далее</button>
             </form>
+            <FocusError 
+                errorsForm={ formikForm.errors } 
+                isSubmitting={ formikForm.isSubmitting } 
+                isValidating={ formikForm.isValidating } 
+            />
         </div>
     );
 });
