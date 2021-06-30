@@ -10,13 +10,11 @@ const Home = React.memo(() => {
 
     const [stateVisibleHead, setVisibleHead] = React.useState(false);
     const [stateVisibleAddress, setVisibleAddress] = React.useState(false);
-    const [stateSelected, setSelected] = React.useState(true);
+    const [chekedActualAddress, setchekedActualAddress] = React.useState(false);
 
     const selectCheckboxAddress = () => {
-        setSelected(!stateSelected);
+        setchekedActualAddress(!chekedActualAddress);
     };
-
-    const refFactAddress = React.useRef(null);
 
     const viewHead = () => {
         setVisibleHead(!stateVisibleHead);
@@ -113,7 +111,9 @@ const Home = React.memo(() => {
         return errorsForm;
     };
 
-    const onSubmit = (values) => console.log(values);
+    const onSubmit = (values) => {
+        console.log(values);
+    }
 
     const formikForm = useFormik({
         initialValues,
@@ -264,12 +264,12 @@ const Home = React.memo(() => {
                         <div className="container__label">
                             <label>
                                 <div>
-                                    <input ref={ refFactAddress } type="checkbox" onClick={ selectCheckboxAddress } />
+                                    <input type="checkbox" onClick={ selectCheckboxAddress } defaultChecked={ chekedActualAddress } />
                                     <p>Совпадает с фактическим адресом организации</p>
                                 </div>
                             </label>
                         </div>
-                        { stateSelected &&
+                        { !chekedActualAddress &&
                             <>
                                 <label>
                                     <p>Страна</p>

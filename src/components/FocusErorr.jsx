@@ -2,7 +2,7 @@ import React from 'react';
 // import { useFormikContext } from 'formik';
 
 const FocusError = ({ errorsForm, isSubmitting, isValidating }) => {
-
+// console.log(errorsForm);
     React.useEffect(() => {
         if (isSubmitting && !isValidating) {
             let keys = Object.keys(errorsForm);
